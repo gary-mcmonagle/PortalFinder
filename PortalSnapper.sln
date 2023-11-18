@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapperConsole", "SnapperConsole\SnapperConsole.csproj", "{CBD1D2EA-7E10-4F7A-A185-0714D19BAA22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapperCore", "SnapperCore\SnapperCore.csproj", "{24F9CEF8-D801-4871-B5C6-92B3CD6ADD90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnapperFunctions", "SnapperFunctions\SnapperFunctions.csproj", "{38A172BA-0F2A-48C5-A29D-B2A95F21719B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBD1D2EA-7E10-4F7A-A185-0714D19BAA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBD1D2EA-7E10-4F7A-A185-0714D19BAA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBD1D2EA-7E10-4F7A-A185-0714D19BAA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBD1D2EA-7E10-4F7A-A185-0714D19BAA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24F9CEF8-D801-4871-B5C6-92B3CD6ADD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F9CEF8-D801-4871-B5C6-92B3CD6ADD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F9CEF8-D801-4871-B5C6-92B3CD6ADD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F9CEF8-D801-4871-B5C6-92B3CD6ADD90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38A172BA-0F2A-48C5-A29D-B2A95F21719B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38A172BA-0F2A-48C5-A29D-B2A95F21719B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38A172BA-0F2A-48C5-A29D-B2A95F21719B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38A172BA-0F2A-48C5-A29D-B2A95F21719B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
