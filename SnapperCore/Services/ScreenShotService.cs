@@ -4,6 +4,11 @@ namespace SnapperCore.Services;
 
 public class ScreenShotService : IScreenShotService
 {
+    public Task SaveImage(string url)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<byte[]> TakeScreenShot(string url)
     {
         await new BrowserFetcher().DownloadAsync();

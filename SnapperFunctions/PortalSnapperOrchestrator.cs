@@ -1,55 +1,58 @@
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
-using Microsoft.DurableTask;
-using Microsoft.DurableTask.Client;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
+using SnapperCore.Services;
 
 namespace PortalSnapper
 {
-    public static class PortalSnapperOrchestrator
+    public class PortalSnapperOrchestrator
     {
-        [Function(nameof(PortalSnapperOrchestrator))]
-        public static async Task<List<string>> RunOrchestrator(
-            [OrchestrationTrigger] TaskOrchestrationContext context)
+        [FunctionName("PortalSnapperOrchestrator")]
+        public async Task<List<string>> RunOrchestrator(
+            [OrchestrationTrigger] IDurableOrchestrationContext context)
         {
-            ILogger logger = context.CreateReplaySafeLogger(nameof(PortalSnapperOrchestrator));
-            logger.LogInformation("Saying hello.");
             var outputs = new List<string>();
 
-            // Replace name and input with values relevant for your Durable Functions Activity
+            // Replace "hello" with the name of your Durable Activity Function.
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Tokyo"));
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "Seattle"));
             outputs.Add(await context.CallActivityAsync<string>(nameof(SayHello), "London"));
-
+            await context.CallActivityAsync<byte[]>(nameof(ScreenShot), "https://www.game.co.uk/en/playstation-portal-2924759");
+            await context.CallActivityAsync<byte[]>(nameof(ScreenShot), "https://google.com");
             // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
             return outputs;
         }
 
-        [Function(nameof(SayHello))]
-        public static string SayHello([ActivityTrigger] string name, FunctionContext executionContext)
+        [FunctionName(nameof(SayHello))]
+        public string SayHello([ActivityTrigger] string name, ILogger log)
         {
-            ILogger logger = executionContext.GetLogger("SayHello");
-            logger.LogInformation("Saying hello to {name}.", name);
+            log.LogInformation("Saying hello to {name}.", name);
             return $"Hello {name}!";
         }
-
-        [Function("PortalSnapperOrchestrator_HttpStart")]
-        public static async Task<HttpResponseData> HttpStart(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req,
-            [DurableClient] DurableTaskClient client,
-            FunctionContext executionContext)
+        [FunctionName(nameof(ScreenShot))]
+        public async Task<byte[]> ScreenShot([ActivityTrigger] string url, ILogger log)
         {
-            ILogger logger = executionContext.GetLogger("PortalSnapperOrchestrator_HttpStart");
+            var bytes = await new ScreenShotService().TakeScreenShot(url);
+            return bytes;
+        }
 
+        [FunctionName("PortalSnapperOrchestrator_HttpStart")]
+        public async Task<HttpResponseMessage> HttpStart(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestMessage req,
+            [DurableClient] IDurableOrchestrationClient starter,
+            ILogger log)
+        {
             // Function input comes from the request content.
-            string instanceId = await client.ScheduleNewOrchestrationInstanceAsync(
-                nameof(PortalSnapperOrchestrator));
+            string instanceId = await starter.StartNewAsync("PortalSnapperOrchestrator", null);
 
-            logger.LogInformation("Started orchestration with ID = '{instanceId}'.", instanceId);
+            log.LogInformation("Started orchestration with ID = '{instanceId}'.", instanceId);
 
-            // Returns an HTTP 202 response with an instance management payload.
-            // See https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-http-api#start-orchestration
-            return client.CreateCheckStatusResponse(req, instanceId);
+            return starter.CreateCheckStatusResponse(req, instanceId);
         }
     }
 }

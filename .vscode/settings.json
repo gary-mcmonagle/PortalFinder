@@ -14,5 +14,5 @@
   },
   "csharp.format.enable": true,
   "editor.formatOnSave": true,
-  "azureFunctions.deploySubpath": "SnapperFunctions/bin/Release/net8.0/publish"
+  "azureFunctions.deploySubpath": "SnapperFunctions/bin/Release/net6.0/publish"
 }

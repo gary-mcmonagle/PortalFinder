@@ -2,7 +2,7 @@
   "profiles": {
     "SnapperFunctions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7059",
+      "commandLineArgs": "--port 7292",
       "launchBrowser": false
     }
   }
