@@ -4,11 +4,6 @@ namespace SnapperCore.Services;
 
 public class ScreenShotService : IScreenShotService
 {
-    public Task SaveImage(string url)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<byte[]> TakeScreenShot(string url)
     {
         await new BrowserFetcher().DownloadAsync();
@@ -22,15 +17,9 @@ public class ScreenShotService : IScreenShotService
         using var page = await browser.NewPageAsync();
 
         await page.GoToAsync(url);
-        // Set the viewport size if needed (optional)
-        await page.SetViewportAsync(new ViewPortOptions
-        {
-            Width = 1920,
-            Height = 1080
-        });
 
         // Take the screenshot
-        var bytes = await page.ScreenshotDataAsync();
+        var bytes = await page.ScreenshotDataAsync(new ScreenshotOptions { CaptureBeyondViewport = true, FullPage = true });
 
         // Close the browser
         await browser.CloseAsync();
