@@ -80,7 +80,7 @@ namespace PortalSnapper
 
         [FunctionName("PortalOrchestrator_TimerStart")]
         public async Task TimerStart(
-            [TimerTrigger("*/5 */6,12,15,20 * * *")] TimerInfo myTimer,
+            [TimerTrigger("5 */6,12,15,20 * * *")] TimerInfo myTimer,
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
