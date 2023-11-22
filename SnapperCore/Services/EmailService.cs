@@ -41,8 +41,14 @@ public class EmailService : IEmailService
         <tr>
         <th>Shop</th>
         <th>Result</th>
+        <th>Image Link</th>
         </tr>
-        {string.Join('\n', shopData.Select(x => $"<tr><td>{x.Item1}</td><td>{x.Item2}</td></tr>"))}
+        {string.Join('\n', shopData.Select(x => @$"
+        <tr>
+            <td>{x.Item1}</td>
+            <td>{x.Item2}</td>
+            <td><a href=""{x.Item3}"">LINK</a></td>
+        </tr>"))}
         </table>
         </body>
         </html>
